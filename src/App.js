@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useReducer, memo, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { usePlan } from './usePlan';
+import { usePaddle } from './usePaddle';
 
 // ═══════════════════════════════════════════════
 //  CONFIG
@@ -376,7 +377,7 @@ function PickerView({ state, dispatch }) {
 
 // ── CHAT ──────────────────────────────────────
 
-function ChatView({ state, dispatch, isPro, canChat, incrementChat }) {
+function ChatView({ state, dispatch, isPro, canChat, incrementChat, openCheckout }) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
@@ -470,7 +471,7 @@ function ChatView({ state, dispatch, isPro, canChat, incrementChat }) {
             <p className="text-violet-300 font-black text-sm">💬 Daily limit reached (5 messages)</p>
             <p className="text-slate-400 text-xs mt-0.5">Upgrade to Pro for unlimited chat 🚀</p>
           </div>
-          <button className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white px-4 py-2 rounded-xl font-black text-xs whitespace-nowrap">
+          <button onClick={openCheckout} className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white px-4 py-2 rounded-xl font-black text-xs whitespace-nowrap">
             Upgrade ✨
           </button>
         </div>
@@ -768,7 +769,7 @@ const NAV = [
 
 // ── ACCOUNT VIEW ──────────────────────────────
 
-function AccountView({ user, plan, isPro, logout, dispatch }) {
+function AccountView({ user, plan, isPro, logout, dispatch, openCheckout }) {
   const planLabel = plan?.plan === 'trial' ? '🎁 Pro Trial' : plan?.plan === 'pro' ? '💎 Pro' : '🆓 Free';
   const planColor = plan?.plan === 'free' ? 'text-slate-400' : 'text-violet-400';
 
@@ -816,7 +817,7 @@ function AccountView({ user, plan, isPro, logout, dispatch }) {
             )}
           </div>
           {!isPro() && (
-            <button className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white px-5 py-2.5 rounded-2xl font-black text-sm">
+            <button onClick={openCheckout} className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white px-5 py-2.5 rounded-2xl font-black text-sm">
               Upgrade ✨
             </button>
           )}
@@ -847,7 +848,7 @@ function AccountView({ user, plan, isPro, logout, dispatch }) {
               <p key={f} className="text-slate-300 text-sm">{f}</p>
             ))}
           </div>
-          <button className="w-full bg-gradient-to-br from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white py-3.5 rounded-2xl font-black text-sm transition-all active:scale-95">
+          <button onClick={openCheckout} className="w-full bg-gradient-to-br from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white py-3.5 rounded-2xl font-black text-sm transition-all active:scale-95">
             Get Pro — $4.99/month
           </button>
           <p className="text-slate-600 text-xs text-center">Cancel anytime. No hidden fees.</p>
@@ -948,6 +949,7 @@ function RefundView({ dispatch }) {
 export default function App() {
   const { user, logout } = useAuth();
   const { plan, isPro, canChat, incrementChat, canAddWatchlist, incrementWatchlist } = usePlan(user);
+  const { openCheckout } = usePaddle(user, () => window.location.reload());
   const [state, dispatch] = useReducer(reducer, INIT);
   const [scrolled, setScrolled] = useState(false);
 
@@ -963,11 +965,11 @@ export default function App() {
     switch(state.view) {
       case 'home':      return <HomeView state={state} dispatch={dispatch}/>;
       case 'picker':    return <PickerView state={state} dispatch={dispatch}/>;
-      case 'chat':      return <ChatView state={state} dispatch={dispatch} isPro={isPro} canChat={canChat} incrementChat={incrementChat}/>;
+      case 'chat':      return <ChatView state={state} dispatch={dispatch} isPro={isPro} canChat={canChat} incrementChat={incrementChat} openCheckout={openCheckout}/>;
       case 'watchlist': return <WatchlistView state={state} dispatch={dispatch} canAddWatchlist={canAddWatchlist} incrementWatchlist={incrementWatchlist}/>;
       case 'search':    return <SearchView state={state} dispatch={dispatch}/>;
       case 'detail':    return <DetailView id={state.selectedId} state={state} dispatch={dispatch}/>;
-      case 'account':   return <AccountView user={user} plan={plan} isPro={isPro} logout={logout} dispatch={dispatch}/>;
+      case 'account':   return <AccountView user={user} plan={plan} isPro={isPro} logout={logout} dispatch={dispatch} openCheckout={openCheckout}/>;
       case 'privacy':   return <PrivacyView dispatch={dispatch}/>;
       case 'terms':     return <TermsView dispatch={dispatch}/>;
       case 'refund':    return <RefundView dispatch={dispatch}/>;
