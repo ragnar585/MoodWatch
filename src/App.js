@@ -862,6 +862,89 @@ function AccountView({ user, plan, isPro, logout, dispatch }) {
   );
 }
 
+// ═══════════════════════════════════════════════
+//  LEGAL PAGES
+// ═══════════════════════════════════════════════
+
+function LegalSection({ sections }) {
+  return (
+    <div className="space-y-6">
+      {sections.map((s, i) => (
+        <div key={i}>
+          <h2 className="text-lg font-bold text-violet-400 mb-2">{s.title}</h2>
+          <p className="text-slate-300 leading-relaxed text-sm">{s.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function LegalLayout({ dispatch, title, subtitle, children }) {
+  return (
+    <div className="max-w-3xl mx-auto py-10 px-4 pb-24">
+      <button onClick={() => dispatch({ type: 'BACK' })}
+        className="mb-6 flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-bold">
+        ← Back
+      </button>
+      <h1 className="text-3xl font-black text-white mb-2">{title}</h1>
+      <p className="text-slate-500 text-sm mb-8">{subtitle}</p>
+      {children}
+    </div>
+  );
+}
+
+function PrivacyView({ dispatch }) {
+  return (
+    <LegalLayout dispatch={dispatch} title="Privacy Policy" subtitle="Last updated: June 2025">
+      <LegalSection sections={[
+        { title: '1. Information We Collect', body: 'We collect information you provide when creating an account, including your name and email address. We also collect usage data such as movies you search for, your watchlist, and mood selections to personalize your experience.' },
+        { title: '2. How We Use Your Information', body: 'We use your information to provide and improve MoodWatch services, personalize movie recommendations, manage your subscription, send important account notifications, and ensure platform security.' },
+        { title: '3. Data Storage', body: 'Your data is stored securely using Google Firebase. We implement industry-standard security measures to protect your personal information from unauthorized access, alteration, or disclosure.' },
+        { title: '4. Third-Party Services', body: 'We use the following third-party services: Google Firebase (authentication & database), The Movie Database / TMDB (movie data), and Paddle (payment processing). Each service has its own privacy policy governing data use.' },
+        { title: '5. Cookies', body: 'MoodWatch uses essential cookies to maintain your session and preferences. We do not use advertising cookies or sell your data to advertisers.' },
+        { title: '6. Your Rights', body: 'You have the right to access, correct, or delete your personal data at any time. You may also request a copy of your data or opt out of non-essential communications by contacting us.' },
+        { title: '7. Data Retention', body: 'We retain your account data for as long as your account is active. Upon account deletion, your personal data is removed within 30 days, except where required by law.' },
+        { title: '8. Contact Us', body: 'If you have questions about this Privacy Policy, please contact us at: support@moodwatch.app' },
+      ]}/>
+    </LegalLayout>
+  );
+}
+
+function TermsView({ dispatch }) {
+  return (
+    <LegalLayout dispatch={dispatch} title="Terms of Service" subtitle="Last updated: June 2025">
+      <LegalSection sections={[
+        { title: '1. Acceptance of Terms', body: 'By accessing or using MoodWatch, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service.' },
+        { title: '2. Description of Service', body: 'MoodWatch is a movie recommendation platform that suggests films based on your mood. We offer a Free plan and a Pro subscription with enhanced features including unlimited recommendations, AI chat, and full watchlist access.' },
+        { title: '3. User Accounts', body: 'You must create an account to use MoodWatch. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.' },
+        { title: '4. Subscriptions & Payments', body: 'Pro subscriptions are billed monthly or annually. All payments are processed securely by Paddle. Prices are displayed in USD and may be subject to local taxes. Subscriptions renew automatically unless cancelled.' },
+        { title: '5. Free Trial', body: 'New users receive a 24-hour Pro trial automatically. After the trial period, your account reverts to the Free plan unless you subscribe to Pro.' },
+        { title: '6. Acceptable Use', body: 'You agree not to misuse MoodWatch, attempt to gain unauthorized access, scrape data, or use the service in any way that violates applicable laws. We reserve the right to suspend accounts that violate these terms.' },
+        { title: '7. Intellectual Property', body: 'All content, branding, and technology in MoodWatch are owned by us. Movie data is provided by The Movie Database (TMDB) under their terms. You may not copy or reproduce any part of MoodWatch without written permission.' },
+        { title: '8. Limitation of Liability', body: 'MoodWatch is provided "as is." We are not liable for any indirect, incidental, or consequential damages arising from your use of the service. Our liability is limited to the amount paid for the service in the past 12 months.' },
+        { title: '9. Changes to Terms', body: 'We may update these Terms of Service at any time. Continued use of MoodWatch after changes constitutes acceptance of the new terms. We will notify users of significant changes via email.' },
+        { title: '10. Contact', body: 'For questions about these Terms, contact us at: support@moodwatch.app' },
+      ]}/>
+    </LegalLayout>
+  );
+}
+
+function RefundView({ dispatch }) {
+  return (
+    <LegalLayout dispatch={dispatch} title="Refund Policy" subtitle="Last updated: June 2025">
+      <LegalSection sections={[
+        { title: '1. 7-Day Money-Back Guarantee', body: 'We offer a full 7-day money-back guarantee on all Pro subscriptions. If you are not satisfied with MoodWatch Pro for any reason, contact us within 7 days of your first payment for a full refund — no questions asked.' },
+        { title: '2. How to Request a Refund', body: 'To request a refund, email us at support@moodwatch.app with your account email and reason for the refund. We process all refund requests within 3–5 business days.' },
+        { title: '3. Refund Eligibility', body: 'Refunds are available for: first-time Pro subscriptions within 7 days of purchase, billing errors or duplicate charges, and cases where the service was inaccessible for more than 48 continuous hours.' },
+        { title: '4. Non-Refundable Cases', body: 'Refunds are not issued for: subscription renewals after the initial 7-day period, partial months of service after cancellation, and accounts found to have violated our Terms of Service.' },
+        { title: '5. Cancellation', body: 'You may cancel your subscription at any time from your Account settings. Upon cancellation, you retain Pro access until the end of your current billing period. No further charges will be made.' },
+        { title: '6. Processing Time', body: 'Once a refund is approved, it will be processed within 3–5 business days. The time for the refund to appear in your account depends on your payment provider, typically 5–10 business days.' },
+        { title: '7. Contact', body: 'For refund inquiries, reach us at: support@moodwatch.app' },
+      ]}/>
+    </LegalLayout>
+  );
+}
+
 export default function App() {
   const { user, logout } = useAuth();
   const { plan, isPro, canChat, incrementChat, canAddWatchlist, incrementWatchlist } = usePlan(user);
@@ -885,6 +968,9 @@ export default function App() {
       case 'search':    return <SearchView state={state} dispatch={dispatch}/>;
       case 'detail':    return <DetailView id={state.selectedId} state={state} dispatch={dispatch}/>;
       case 'account':   return <AccountView user={user} plan={plan} isPro={isPro} logout={logout} dispatch={dispatch}/>;
+      case 'privacy':   return <PrivacyView dispatch={dispatch}/>;
+      case 'terms':     return <TermsView dispatch={dispatch}/>;
+      case 'refund':    return <RefundView dispatch={dispatch}/>;
       default:          return <HomeView state={state} dispatch={dispatch}/>;
     }
   };
@@ -942,6 +1028,19 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 py-8 pb-32 md:pb-12">
         {renderView()}
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-8 text-center hidden md:block">
+        <div className="flex justify-center gap-8 text-sm text-slate-600">
+          <button onClick={() => dispatch({ type: 'NAV', view: 'privacy' })}
+            className="hover:text-slate-400 transition-colors">Privacy Policy</button>
+          <button onClick={() => dispatch({ type: 'NAV', view: 'terms' })}
+            className="hover:text-slate-400 transition-colors">Terms of Service</button>
+          <button onClick={() => dispatch({ type: 'NAV', view: 'refund' })}
+            className="hover:text-slate-400 transition-colors">Refund Policy</button>
+        </div>
+        <p className="text-slate-700 text-xs mt-3">© 2025 MoodWatch. All rights reserved.</p>
+      </footer>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#080c14]/98 backdrop-blur-2xl border-t border-white/5">
         <div className="flex">
