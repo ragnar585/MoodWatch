@@ -1,4 +1,4 @@
 export const PADDLE_CONFIG = {
-  clientToken: 'live_0711cdbc73e5a505b8fe9e3971e',
-  priceId: 'pri_01ktm031z8yf4zty67pngy21w9',
+  clientToken: 'live_2e79152e9a61e2fa917a0db3bf0',
+  priceId: 'pri_01ktnx4mdcx207s3pds4t8g7xd',
 };
